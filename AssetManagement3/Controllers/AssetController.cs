@@ -17,7 +17,10 @@ namespace AssetManagement3.Controllers
         {
             return View();
         }
-
+        public ActionResult Test()
+        {
+            return View();
+        }
         // GET: Asset/Details/5
         public ActionResult Details(int id)
         {
@@ -36,25 +39,25 @@ namespace AssetManagement3.Controllers
             string json = Request.InputStream.ReadToEnd();
             AssignLocatioModel inputData =
                 JsonConvert.DeserializeObject<AssignLocatioModel>(json);
+
             bool success = false;
             string error = "";
-
-            Omat_tietokannatEntities entities = new Omat_tietokannatEntities();
+           Omat_tietokannatEntities entities = new Omat_tietokannatEntities();
             try
             {
-
+                // haetaan ensin paikan id-numero koodin perusteella
                 int locationId = (from l in entities.AssetLocations
                                   where l.Code == inputData.LocationCode
                                   select l.Id).FirstOrDefault();
 
-                int assetId = (from a in entities.AssetLocations
-                               where a.Code == inputData.LocationCode
+                // haetaan laitteen id-numero koodin perusteella
+                int assetId = (from a in entities.Assets
+                               where a.Code == inputData.AssetCode
                                select a.Id).FirstOrDefault();
 
-                if ((locationId > 0) && (assetId = > 0))
-
+                if ((locationId > 0) && (assetId > 0))
                 {
-                    //tallennetaan uusirivi aikaleiman kanssa kantaa.
+                    // tallennetaan uusi rivi aikaleiman kanssa kantaan
                     AssetLocation1 newEntry = new AssetLocation1();
                     newEntry.LocationId = locationId;
                     newEntry.AssetId = assetId;
@@ -62,88 +65,28 @@ namespace AssetManagement3.Controllers
 
                     entities.AssetLocations1.Add(newEntry);
                     entities.SaveChanges();
+
                     success = true;
-
-
                 }
             }
             catch (Exception ex)
             {
                 error = ex.GetType().Name + ": " + ex.Message;
-            }          
-            finally 
+            }
+            finally
             {
                 entities.Dispose();
             }
+
+            // palautetaan JSON-muotoinen tulos kutsujalle
             var result = new { success = success, error = error };
             return Json(result);
 
-            
 
 
-            }
-        }
-
-
-
-        // POST: Asset/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Asset/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Asset/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Asset/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Asset/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
+
+
+        
