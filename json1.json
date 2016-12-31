@@ -1,0 +1,20 @@
+
+  [
+    {
+      "Id": 1,
+      "LocationCode": "DigiPoint",
+      "LocationName": "DigiPoint",
+      "AssetCode": "OpeLaptop",
+      "AssetName": "Kannettava: Hp ProBook",
+      "LastSeen": "20.12.2016 17.28.29"
+    },
+    {
+      "Id": 2,
+      "LocationCode": "ABCD",
+      "LocationName": "Testisijainti",
+      "AssetCode": "1234",
+      "AssetName": "Läppäri: Hp ProBook",
+      "LastSeen": "29.12.2016 20.03.32"
+    }
+  ]
+
